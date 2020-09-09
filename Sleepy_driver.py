@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # import necessary modules from kivy
-import os
 import sys
 import cv2
 import dlib
@@ -60,7 +59,7 @@ class Background(FloatLayout):
             plot_canvas_graph = np.ones((height_graph, width_graph, 3)) * 255
             cv2.line(plot_canvas_graph,
                      (0, int(height_graph / 2)),
-                     (width_graph, int(height_graph / 2)), (0, 255, 0), 1)
+                     (width_graph, int(height_graph / 2)), (0, 0, 255), 1)
             for i in range(len(val_graph) - 1):
                 cv2.line(plot_canvas_graph, (i, int(height_graph / 2) - val_graph[i]),
                          (i + 1, int(height_graph / 2) - val_graph[i + 1]), color_graph, 1)
