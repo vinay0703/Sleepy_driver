@@ -1,0 +1,38 @@
+<Background>:
+    id: main_win
+    orientation: "vertical"
+    spacing: 70
+    space_x: self.size[0]/3
+
+
+    canvas.before:
+        Color:
+            rgba: (1, 1, 1, 1)
+        Rectangle:
+            source:'driver3.png'
+            size: root.width, root.height
+            pos: self.pos
+    Button:
+        background_color: 0,0,0,0
+        size_hint: None,None
+        size: 280,100
+        pos: 120,237
+        on_release:
+            root.drowsy()
+
+    Button:
+        background_color: 0,0,0,0
+        size_hint: None,None
+        size: 300,100
+        pos: 190,120
+        on_release:
+            root.threshold_changer()
+            root.drowsy()
+            
+    Button:
+        background_color: 0,0,0,0
+    	size_hint: None,None
+    	size: 290,100
+    	pos: 260,10
+    	on_release:
+    	    root.end()
