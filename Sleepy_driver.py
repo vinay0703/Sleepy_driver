@@ -205,8 +205,8 @@ class Background(FloatLayout):
                                     1, (0, 0, 255), 2)
                 else:
                     alarm_on2 = False
-            cv2.putText(img, "EAR: {:.2f}".format(eye_ear), (500, 450), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
-            cv2.putText(img, "YAWN: {:.2f}".format(lip_distance), (500, 480), cv2.FONT_HERSHEY_SIMPLEX, 0.6,(0, 0, 255), 2)
+            cv2.putText(img, "EAR: {:.2f}".format(eye_ear), (500, 440), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
+            cv2.putText(img, "YAWN: {:.2f}".format(lip_distance), (500, 470), cv2.FONT_HERSHEY_SIMPLEX, 0.6,(0, 0, 255), 2)
             cv2.putText(img, "Press and Hold Q to Exit", (20, 470), cv2.FONT_HERSHEY_DUPLEX, 0.7, (0, 255, 0), 2)
             cv2.imshow("Cap", img)
             if cv2.waitKey(1) & 0xFF == ord('q'):
