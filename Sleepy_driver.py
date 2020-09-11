@@ -3,6 +3,7 @@
 import sys
 import cv2
 import dlib
+import json
 import time
 import playsound
 import numpy as np
@@ -48,10 +49,11 @@ def speak(text):
 class Background(FloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.eye_ear_threshold = 0.24  # may vary upon distance and quality of camera
-        self.yawn_threshold = 22
         self.flag=0
-        self.modify_threshold=0
+        with open('threshold.json') as f_obj:
+            thresholds=json.load(f_obj)
+        self.eye_ear_threshold = thresholds[0]  # may vary upon distance and quality of camera
+        self.yawn_threshold = thresholds[1]
 
 
     def drowsy(self):
@@ -174,9 +176,9 @@ class Background(FloatLayout):
                 # print(lip_distance)    #trail and error method for
                 # adjusting yawn_threshold
                 if self.flag == 1:
-                    if self.modify_threshold == 1:
-                        print("You have modified eye_ear to",self.eye_ear_threshold)
                     self.threshold_changer()
+                    print("\nYou have modified eye_ear_threshold to",self.eye_ear_threshold)
+                    print("You have modified yawn_threshold to",self.yawn_threshold)
                 x=lip_distance
                 y=eye_ear*100
                 plot(y,x)
@@ -210,6 +212,10 @@ class Background(FloatLayout):
             cv2.putText(img, "Press and Hold Q to Exit", (20, 470), cv2.FONT_HERSHEY_DUPLEX, 0.7, (0, 255, 0), 2)
             cv2.imshow("Cap", img)
             if cv2.waitKey(1) & 0xFF == ord('q'):
+                if self.flag == 1:
+                    thresholds=[self.eye_ear_threshold,self.yawn_threshold]
+                    with open('threshold.json','w') as f_obj:
+                        json.dump(thresholds,f_obj)
                 break
         cv2.destroyAllWindows()
         cap.release()
@@ -222,12 +228,13 @@ class Background(FloatLayout):
                 in  threshold window"""
             pass
         self.flag=1
-        self.modify_threshold=1
         cv2.namedWindow("Thresholds")
         cv2.resizeWindow("Thresholds",640,240)
-        cv2.createTrackbar("Eye ear(0.01)","Thresholds",24,50,empty)
-        cv2.createTrackbar("Yawn threshold","Thresholds",22,50,empty)
-        self.eye_ear_threshold = cv2.getTrackbarPos("Eye ear(0.01)","Thresholds")
+        x=int(self.eye_ear_threshold*100)
+        y=int(self.yawn_threshold)
+        cv2.createTrackbar("Eye ear*(0.01)","Thresholds",x,50,empty)
+        cv2.createTrackbar("Yawn threshold","Thresholds",y,50,empty)
+        self.eye_ear_threshold = cv2.getTrackbarPos("Eye ear*(0.01)","Thresholds")
         self.eye_ear_threshold/=100  # may vary upon distance and quality of camera
         # adjust it by trail error on line
         self.yawn_threshold = cv2.getTrackbarPos("Yawn threshold","Thresholds")
