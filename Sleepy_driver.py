@@ -8,7 +8,6 @@ import json
 import time
 import playsound
 import numpy as np
-from gtts import gTTS
 from kivy.app import App
 from threading import Thread
 from kivy.config import Config
