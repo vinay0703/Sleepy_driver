@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # import necessary modules from kivy
+import os
 import sys
 import cv2
 import dlib
@@ -33,17 +34,6 @@ def get_lip_distance(top_lip, bottom_lip):
     distance = abs(top_mean[1] - bottom_mean[1])
     return distance
 
-def alarm(path):
-    """Alarm for drowsy and yawn detection."""
-    playsound.playsound(path)
-
-def speak(text):
-    """converts text to speech by using google text to speech module(gtts)."""
-    tts = gTTS(text=text, slow=False, lang='en')
-    file_name = "voice.mp3"
-    tts.save(file_name)
-
-    playsound.playsound(file_name)
 ###############################################################################
 # create a background class which inherits the boxlayout class
 class Background(FloatLayout):
@@ -57,6 +47,15 @@ class Background(FloatLayout):
 
 
     def drowsy(self):
+        def alarm(msg):
+            """Alarm for drowsy and yawn detection."""
+            while alarm_on1:
+                s='espeak "'+msg+'"'
+                os.system(s)
+            if alarm_on2:
+                saying=True
+                s='espeak "'+msg+'"'
+                os.system(s)
         def show_plot(label):
             plot_canvas_graph = np.ones((height_graph, width_graph, 3)) * 255
             cv2.line(plot_canvas_graph,
@@ -188,7 +187,7 @@ class Background(FloatLayout):
                     if count >= count_threshold:
                         if not alarm_on1:
                             alarm_on1 = True
-                            t = Thread(target=alarm("voice.mp3"), args=("voice.mp3"))
+                            t = Thread(target=alarm,args=('wake up sir',))
                             t.deamon = True
                             t.start()
                         cv2.putText(img, "DROWSINESS ALERT", (10, 30),
@@ -200,7 +199,7 @@ class Background(FloatLayout):
                 if lip_distance > self.yawn_threshold:
                     if not alarm_on2:
                         alarm_on2 = True
-                        t = Thread(target=alarm("yawn.mp3"), args=("yawn.mp3"))
+                        t = Thread(target=alarm, args=("take some fresh air sir",))
                         t.deamon = True
                         t.start()
                         cv2.putText(img, "YAWN ALERT", (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
