@@ -3,7 +3,6 @@ A computer vision (OpenCV) project based on drowsiness and yawn detection of a d
 
 # Application demo
 
-https://github.com/vinay0703/Sleepy_driver/assets/68630619/12121f07-e8f0-487a-8f1f-cd13d1723030
 
-
+https://github.com/vinay0703/Sleepy_driver/assets/68630619/2df6f468-66c9-40ff-891c-6db40fd8a0a8
 
